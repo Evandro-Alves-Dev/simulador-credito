@@ -8,6 +8,7 @@ import com.evandro_alves.simulador_credito.exceptions.ErroNegocioException
 import com.evandro_alves.simulador_credito.exceptions.ValidacaoException
 import com.evandro_alves.simulador_credito.service.mapper.SimulacaoCreditoServiceMapper
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.math.MathContext
@@ -33,6 +34,11 @@ class SimulacaoCreditoServiceImpl(
         )
     }
 
+    @Cacheable(
+        cacheNames = ["teste"],
+        key = "#simulacaoCredito.valorEmprestimo.toString() + '/' + #simulacaoCredito.dataNascimento.toString()",
+        unless = "#result.isEmpty()"
+    )
     override fun simularPorValorParcela(simulacaoCredito: SimulacaoCredito): List<SimulacaoCredito> {
         try {
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.INI_PRO.descricao))
