@@ -30,7 +30,7 @@ class StandardHandler {
         val error = StandardError(
             timestamp = Instant.now(),
             status = HttpStatus.BAD_REQUEST.value(),
-            message = "Atributo inválido",
+            message = "Atributo inválido, ${e.message}",
             path = request.requestURI
         )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)
@@ -41,7 +41,7 @@ class StandardHandler {
         val error = StandardError(
             timestamp = Instant.now(),
             status = HttpStatus.BAD_REQUEST.value(),
-            message = "Atributo inválido '${e.campo}'",
+            message = "Atributo inválido '${e.campo}', ${e.message}",
             path = request.requestURI
         )
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)

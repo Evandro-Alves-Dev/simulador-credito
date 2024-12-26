@@ -76,9 +76,12 @@ class SimulacaoCreditoServiceImpl(
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.FIM_PRO.descricao))
             return listaSimulacoesRealizadas
 
+        } catch (e: ValidacaoException) {
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
+            throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
-            throw ErroNegocioException("Erro ao simular por valor parcela")
+            throw ErroNegocioException("Erro ao simular por data de nascimento")
         }
     }
 
@@ -114,6 +117,9 @@ class SimulacaoCreditoServiceImpl(
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.FIM_PRO.descricao))
             return listaSimulacoesRealizadas
 
+        } catch (e: ValidacaoException) {
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
+            throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
             throw ErroNegocioException("Erro ao simular por data de nascimento")
@@ -153,9 +159,12 @@ class SimulacaoCreditoServiceImpl(
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.FIM_PRO.descricao))
             return listaSimulacoesRealizadas
 
+        } catch (e: ValidacaoException) {
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
+            throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
-            throw ErroNegocioException("Erro ao simular por quantidade de parcelas")
+            throw ErroNegocioException("Erro ao simular por data de nascimento")
         }
     }
 
@@ -168,32 +177,32 @@ class SimulacaoCreditoServiceImpl(
     }
 
     private fun validacaoValorParcela(simulacaoCredito: SimulacaoCredito) {
-        if (simulacaoCredito.valorEmprestimo == null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus("Valor empréstimo não informado"))
-            throw ValidacaoException("Valor empréstimo não informado", "valoresEmprestimo")
+        if (simulacaoCredito.valorEmprestimo == null || simulacaoCredito.valorEmprestimo!! <= BigDecimal.ZERO) {
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.VLR_EMP_NUL.descricao))
+            throw ValidacaoException(MensagensEnum.VLR_EMP_NUL.descricao, "valorEmprestimo")
         } else if (simulacaoCredito.quantidadeParcelas != null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus("Quantidade de parcelas deve ser null"))
-            throw ValidacaoException("Quantidade de parcelas deve ser null", "quantidadeParcelas")
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.QTD_PAR_NULL.descricao))
+            throw ValidacaoException(MensagensEnum.QTD_PAR_NULL.descricao, "quantidadeParcelas")
         }
     }
 
     private fun validacaoDataNascimento(simulacaoCredito: SimulacaoCredito) {
         if (simulacaoCredito.valorEmprestimo != null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.VLR_EMP.descricao))
-            throw ValidacaoException(MensagensEnum.VLR_EMP.descricao, "valoresEmprestimo")
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.VLR_EMP_NAO_NUL.descricao))
+            throw ValidacaoException(MensagensEnum.VLR_EMP_NAO_NUL.descricao, "valorEmprestimo")
         } else if (simulacaoCredito.quantidadeParcelas != null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus("Quantidade de parcelas não deve ser informado"))
-            throw ValidacaoException("Quantidade de parcelas não deve ser informado", "quantidadeParcelas")
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.QTD_PAR_NULL.descricao))
+            throw ValidacaoException(MensagensEnum.QTD_PAR_NULL.descricao, "quantidadeParcelas")
         }
     }
 
     private fun validacaoQuantidadeParcelas(simulacaoCredito: SimulacaoCredito) {
-        if (simulacaoCredito.quantidadeParcelas == null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus("Quantidade de parcelas deve ser informada"))
-            throw ValidacaoException("Quantidade de parcelas deve ser informada", "quanditadeParcelas")
+        if (simulacaoCredito.quantidadeParcelas == null || simulacaoCredito.quantidadeParcelas!! <= 0) {
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.QTD_PAR_NAO_NUL.descricao))
+            throw ValidacaoException(MensagensEnum.QTD_PAR_NAO_NUL.descricao, "quanditadeParcelas")
         } else if (simulacaoCredito.valorEmprestimo != null) {
-            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.VLR_EMP.descricao))
-            throw ValidacaoException(MensagensEnum.VLR_EMP.descricao, "valoresEmprestimo")
+            logger.error(ERRO_NEGOCIO.plus(" - ").plus(MensagensEnum.VLR_EMP_NAO_NUL.descricao))
+            throw ValidacaoException(MensagensEnum.VLR_EMP_NAO_NUL.descricao, "valorEmprestimo")
         }
     }
 
