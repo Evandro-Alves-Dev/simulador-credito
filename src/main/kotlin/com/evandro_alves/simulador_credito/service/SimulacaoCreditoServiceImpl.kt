@@ -34,11 +34,11 @@ class SimulacaoCreditoServiceImpl(
         )
     }
 
-    @Cacheable(
-        cacheNames = ["teste"],
-        key = "#simulacaoCredito.valorEmprestimo.toString() + '/' + #simulacaoCredito.dataNascimento.toString()",
-        unless = "#result.isEmpty()"
-    )
+//    @Cacheable(
+//        cacheNames = ["teste"],
+//        key = "#simulacaoCredito.valorEmprestimo.toString() + '/' + #simulacaoCredito.dataNascimento.toString()",
+//        unless = "#result.isEmpty()"
+//    )
     override fun simularPorValorParcela(simulacaoCredito: SimulacaoCredito): List<SimulacaoCredito> {
         try {
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.INI_PRO.descricao))
@@ -87,7 +87,7 @@ class SimulacaoCreditoServiceImpl(
             throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
-            throw ErroNegocioException("Erro ao simular por data de nascimento")
+            throw ErroNegocioException("Erro ao simular por valor parcela.")
         }
     }
 
@@ -128,7 +128,7 @@ class SimulacaoCreditoServiceImpl(
             throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
-            throw ErroNegocioException("Erro ao simular por data de nascimento")
+            throw ErroNegocioException("Erro ao simular por data de nascimento.")
         }
     }
 
@@ -170,7 +170,7 @@ class SimulacaoCreditoServiceImpl(
             throw e
         } catch (e: Exception) {
             logger.error(ERRO_NEGOCIO.plus(" - ").plus(e.message))
-            throw ErroNegocioException("Erro ao simular por data de nascimento")
+            throw ErroNegocioException("Erro ao simular por quantidade de parcelas.")
         }
     }
 
