@@ -38,6 +38,9 @@ jobs:
       - name: Ensure Gradle Wrapper
         run: ./gradlew wrapper
 
+      - name: Verify Gradle Wrapper JAR
+        run: test -f gradle/wrapper/gradle-wrapper.jar || echo "gradle-wrapper.jar is missing"
+
       - name: Build with Gradle
         run: ./gradlew build
 
