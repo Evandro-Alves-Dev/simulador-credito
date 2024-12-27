@@ -26,6 +26,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("jakarta.validation:jakarta.validation-api:3.1.0")
     implementation("org.slf4j:slf4j-api:2.0.16")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.ehcache:ehcache:3.10.8:jakarta")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
@@ -34,6 +36,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 dependencyManagement {
@@ -48,6 +51,10 @@ configurations.all {
         failOnVersionConflict()
         eachDependency {
             if (requested.group == "org.jetbrains.kotlin" && requested.name == "annotations")
+                useVersion("23.0.0")
+            if (requested.group == "org.jetbrains.kotlinx" && requested.name == "kotlinx-coroutines-bom")
+                useVersion("1.8.1")
+            if (requested.group == "org.jetbrains" && requested.name == "annotations")
                 useVersion("23.0.0")
         }
     }
