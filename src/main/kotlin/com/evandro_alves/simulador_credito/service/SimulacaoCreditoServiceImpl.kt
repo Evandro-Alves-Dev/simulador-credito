@@ -33,12 +33,6 @@ class SimulacaoCreditoServiceImpl(
             BigDecimal(10000)
         )
     }
-
-//    @Cacheable(
-//        cacheNames = ["teste"],
-//        key = "#simulacaoCredito.valorEmprestimo.toString() + '/' + #simulacaoCredito.dataNascimento.toString()",
-//        unless = "#result.isEmpty()"
-//    )
     override fun simularPorValorParcela(simulacaoCredito: SimulacaoCredito): List<SimulacaoCredito> {
         try {
             logger.info(LOG_NEGOCIO.plus(" - ").plus(MensagensEnum.INI_PRO.descricao))
